@@ -1,0 +1,50 @@
+import java.util.*;
+public class Hamiltonian {
+  static void hamiltonian(int matrix[][], int n) {
+    int count = 0;
+    int[] path = new int[n];
+    Arrays.fill(path, -1);
+    path[0] = 0;
+    hamiltonianUtil(matrix, path, 1, n);
+  }
+  static void hamiltonianUtil(int matrix[][], int path[], int pos, int n) {
+    if (pos == n) {
+      printPath(path);
+      return;
+    }
+    for (int v = 1; v < n; v++) {
+      if (isSafe(v, matrix, path, pos)) {
+      path[pos] = v;
+      hamiltonianUtil(matrix, path, pos + 1, n);
+      path[pos] = -1;
+      }
+    }
+  }
+  static boolean isSafe(int v, int matrix[][], int path[], int pos) {
+    if (matrix[path[pos - 1]][v] == 0)
+    return false;
+    for (int i = 0; i < pos; i++)
+    if (path[i] == v)
+    return false;
+    return true;
+  }
+  static void printPath(int path[]) {
+    for (int i : path)
+    System.out.print(i + " ");
+    System.out.println(path[0]);
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Please enter the number of cities : ");
+    int cities = sc.nextInt();
+    int[][] matrix = new int[cities][cities];
+    System.out.println("Please enter the elements of matrix : ");
+    for (int i = 0; i < cities; i++) {
+      for (int j = 0; j < cities; j++) {
+      matrix[i][j] = sc.nextInt();
+      }
+    }
+    System.out.println("All possible paths are :- ");
+    hamiltonian(matrix, cities);
+  }
+}
