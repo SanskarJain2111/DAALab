@@ -1,0 +1,42 @@
+//Graph coloring
+
+import java.util.*;
+public class GraphColoring {
+  static void colorGraph(int[][] graph, int nodes) {
+    int[] color = new int[nodes];
+    Arrays.fill(color, -1);
+    color[0] = 0;
+    for (int node = 1; node < nodes; node++) {
+      boolean[] availableColors = new boolean[nodes];
+      Arrays.fill(availableColors, true);
+      for (int adjacent = 0; adjacent < nodes; adjacent++) {
+        if (graph[node][adjacent] == 1 && color[adjacent] != -1) {
+        availableColors[color[adjacent]] = false;
+        }
+      }
+      int chosenColor;
+      for (chosenColor = 0; chosenColor < nodes; chosenColor++) {
+        if (availableColors[chosenColor]) {
+        break;
+        }
+      }
+      color[node] = chosenColor;
+    }
+    for (int i = 0; i < nodes; i++) {
+      System.out.println("Node " + i + " is colored with color " + color[i]);
+    }
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("Enter the number of nodes: ");
+    int nodes = sc.nextInt();
+    int[][] graph = new int[nodes][nodes];
+    System.out.println("Enter the adjacency matrix:");
+    for (int i = 0; i < nodes; i++) {
+      for (int j = 0; j < nodes; j++) {
+        graph[i][j] = sc.nextInt();
+      }
+    }
+    colorGraph(graph, nodes);
+  }
+}
