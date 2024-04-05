@@ -1,0 +1,64 @@
+import java.util.Scanner;
+
+public class TSP {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("------------------------------------------------");
+    System.out.println(" Input");
+    System.out.println("------------------------------------------------");
+    System.out.print("Please enter the number of cities : ");
+    int cities = sc.nextInt();
+    int[][] distance = new int[cities][cities];
+    System.out.println("Please enter the distances between cities : ");
+    for (int i = 0; i < cities; i++) {
+      for (int j = 0; j < cities; j++) {
+        distance[i][j] = sc.nextInt();
+      }
+    }
+    System.out.println("Distance Matrix :- ");
+    for (int i = 0; i < cities; i++) {
+      for (int j = 0; j < cities; j++) {
+        System.out.print(distance[i][j] + " ");
+      }
+      System.out.println();
+    }
+    int source = 0;
+    tsp(distance, source, cities);
+  }
+
+  static void tsp(int[][] distance, int source, int cities) {
+    boolean[] visitCity = new boolean[cities];
+    visitCity[source] = true;
+    int tsp = 0;
+    int index = 1;
+    int[] path = new int[cities + 1];
+    path[0] = 0;
+    path[cities] = 0;
+    for (int count = 1; count < cities; count++) {
+      int nearestCity = -1;
+      int minDistance = Integer.MAX_VALUE;
+      for (int i = 0; i < cities; i++) {
+        if (!visitCity[i] && distance[source][i] < minDistance) {
+          nearestCity = i;
+          minDistance = distance[source][i];
+        }
+      }
+      if (nearestCity != -1) {
+        visitCity[nearestCity] = true;
+        tsp += minDistance;
+        source = nearestCity;
+        path[index++] = nearestCity;
+      }
+    }
+    tsp += distance[source][0];
+    System.out.println("------------------------------------------------");
+    System.out.println("Minimum cost : " + tsp);
+    for(int i = 0; i <= cities; i++){
+      if(i != cities)
+      System.out.print(path[i] + " --> ");
+      else
+      System.out.println(path[i]);
+    }
+    System.out.println("------------------------------------------------");
+  }
+}
