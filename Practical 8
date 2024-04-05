@@ -1,6 +1,7 @@
 //Graph coloring
 
 import java.util.*;
+
 public class GraphColoring {
   static void colorGraph(int[][] graph, int nodes) {
     int[] color = new int[nodes];
